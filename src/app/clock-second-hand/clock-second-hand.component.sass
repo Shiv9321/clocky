@@ -1,0 +1,48 @@
+.div-second-hand
+  position: absolute
+  display: flex
+  justify-content: center
+  align-items: flex-start
+
+  >i
+    background-color: #e84181
+    z-index: 90
+    width: 0.5vmin
+    height: 20vmin
+    position: absolute
+    border-radius: 50% 50% 50% 50%
+    //transform: translate(0px,-25px)
+    transform-origin: top center
+    //transform: translate(-50%,0%)
+    cursor: pointer
+
+@mixin second-hand-small-screen
+  transform: translate(0px, -10px) !important
+
+@media screen and (max-width: 350px), (max-height: 350px)
+  .div-second-hand > i
+    @include second-hand-small-screen
+
+.div-second-hand .white-dot::before
+  content: ''
+  position: absolute
+  bottom: 0
+  transform: translate(-30%,0%)
+  width: 10px
+  height: 10px
+  border-radius: 50%
+  background-color: #f6f2f2
+  z-index: 155
+  user-select: none
+  pointer-events: none
+
+
+.p-class
+  user-select: none
+  top: 3vmin
+  right: 3vmin
+  position: absolute
+  color: #d6497f
+  font-weight: 1000
+  z-index: 320
+  width: 12vmin

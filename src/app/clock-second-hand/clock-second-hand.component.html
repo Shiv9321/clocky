@@ -1,0 +1,16 @@
+<div class="div-second-hand">
+
+  <i #draggable
+    (mouseup)="handleMouseUp($event)" (mousedown)="handleMouseDown($event)"
+    [style.transform]="handClicked ? 'rotate(' + secondAngle + 'deg)scale(1.4) ' :  secondRotation"
+    [ngClass]="{ 'white-dot': isDragging }">
+  </i>
+
+  <p class="p-class" [hidden]="!handClicked"
+  [style.left.vmin]="secXPos" [style.top.vmin]="secYPos">
+    <span> {{ secondValue }} </span>
+    <span> : </span>
+    <span> {{ secondangleT.toFixed(0) }} </span>
+  </p>
+
+</div>

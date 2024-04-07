@@ -1,0 +1,31 @@
+.div-clock-circle-inner
+  border: 3px solid #ffffff
+  border-radius: 50%
+  display: flex
+  justify-content: center
+  align-items: center
+  box-sizing: border-box
+  box-shadow: -1px 1px #918e8e, -2px 1px 8px #7b7a7a
+
+  @media (max-width: 500px), (max-height: 500px)
+    border: 0 // Remove border if resolution is less than 500px
+    box-shadow: 0px 0px #918e8e, 0px 0px 0px #7b7a7a
+
+.center-dot
+  height: 3vmin
+  width: 3vmin
+  border: 2px solid #1f1919
+  border-radius: 50%
+  z-index: 200
+  position: absolute
+  background-color: #ffffff
+  //cursor: pointer
+  &.green-background
+    background-color: #22b722
+    //#09a409
+
+
+.red-color
+  //#ce0808
+  background-color: #e42a2a
+

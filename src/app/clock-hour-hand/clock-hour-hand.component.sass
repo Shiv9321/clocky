@@ -1,0 +1,47 @@
+.div-hour-hand
+  position: absolute
+  display: flex
+  justify-content: center
+  align-items: flex-end
+
+  >i
+    background-color: #c8c7c7
+    z-index: 110
+    width: 0.5vmin
+    height: 20vmin
+    position: absolute
+    border-radius: 50% 50% 50% 50%
+    transform-origin: bottom center
+    cursor: pointer
+
+
+@mixin hour-hand-small-screen
+  transform: translate(0px, 0px) !important
+
+
+// Media Query for applying the adjusted transform only on smaller screens
+@media screen and (max-width: 350px), (max-height: 350px)
+  .div-hour-hand > i
+     @include hour-hand-small-screen
+
+.div-hour-hand .white-dot::before
+  content: ''
+  position: absolute
+  top: 0
+  transform: translate(-30%,0%)
+  width: 10px
+  height: 10px
+  border-radius: 50%
+  background-color: #f6f2f2
+  z-index: 155
+  user-select: none
+  pointer-events: none
+
+.p-class
+  user-select: none
+  bottom: 6vmin
+  position: absolute
+  color: #c8c7c7
+  font-weight: 1000
+  z-index: 300
+  width: 12vmin

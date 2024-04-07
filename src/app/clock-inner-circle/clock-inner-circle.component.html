@@ -1,0 +1,15 @@
+<div class="div-clock-circle-inner" [style.height]="radius" [style.width]="radius">
+
+  <div [ngClass]="{'red-color': isRed}"
+        [ngClass]="{'center-dot': true, 'green-background': isGreen}"
+        class="center-dot">
+  </div>
+
+  <app-clock-hands></app-clock-hands>
+
+  <app-clock-hands-angles></app-clock-hands-angles>
+
+  <app-clock-inner-digits></app-clock-inner-digits>
+
+
+</div>

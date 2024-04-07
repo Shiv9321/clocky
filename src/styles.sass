@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+html,body
+  height: 150vh
+  width: 100%
+  margin: 0
+  padding: 0
+  //overflow: auto
+  scroll-behavior: smooth
+
+  // WebKit (Chrome, Safari)
+  &::-webkit-scrollbar
+    width: 8px // Set width of scrollbar
+
+  &::-webkit-scrollbar-track
+    background: #161622
+    background: linear-gradient(#060607 49%, #2c2b2c)
+    //background-color: transparent
+    opacity: 0.2
+
+  &::-webkit-scrollbar-thumb
+    background: #888 // Color of the thumb
+    border-radius: 25px // Rounded corners
+
+  // Reset Sass
+*, *::before, *::after
+  margin: 0
+  padding: 0
+  box-sizing: border-box // Ensures padding and border are included in the element's total width and height
+
+html
+  font-size: 16px // Set a base font size
+
+body
+  line-height: 1
+
+// HTML5 display-role reset for older browsers
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section
+  display: block
+
+ol, ul
+  list-style: none
+
+blockquote, q
+  quotes: none
+
+blockquote::before, blockquote::after, q::before, q::after
+  content: ''
+  content: none
+
+table
+  border-collapse: collapse
+  border-spacing: 0
+
+

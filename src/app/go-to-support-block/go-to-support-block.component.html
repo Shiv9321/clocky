@@ -1,0 +1,30 @@
+<div class="sticky-container">
+
+  <div (click)="openBox()" class="go-to-support-arrow">
+    →
+  </div>
+
+  <div *ngIf="showBox" class="floating-box">
+
+    <span (click)="closeBox()" class="close-icon">&times;</span>
+
+    <div>
+      Hello
+    </div>
+
+    <div>
+      just by giving
+
+    </div>
+
+    <button> 1 Rs. </button>
+
+    <div>
+      Would like to show support to the developer.
+    </div>
+
+  </div>
+
+
+</div>
+

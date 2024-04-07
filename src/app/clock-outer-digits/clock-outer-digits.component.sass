@@ -1,0 +1,19 @@
+.circle-outer-digit-container
+  position: absolute
+  color: #ffffff
+
+  .number
+    position: absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 50%
+    color: white
+    font-size: 1.8vmin
+    user-select: none
+    pointer-events: none
+
+      // Media Query for smaller resolution screens
+    @media screen and (max-width: 500px),(max-height: 500px)
+      // //font-size: 0.8vmin
+      display: none

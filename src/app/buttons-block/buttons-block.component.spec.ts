@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FirstCompComponent } from './first-comp.component';
+import { ButtonsBlockComponent } from './buttons-block.component';
 
-describe('FirstCompComponent', () => {
-  let component: FirstCompComponent;
-  let fixture: ComponentFixture<FirstCompComponent>;
+describe('ButtonsBlockComponent', () => {
+  let component: ButtonsBlockComponent;
+  let fixture: ComponentFixture<ButtonsBlockComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FirstCompComponent]
+      declarations: [ButtonsBlockComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FirstCompComponent);
+    fixture = TestBed.createComponent(ButtonsBlockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

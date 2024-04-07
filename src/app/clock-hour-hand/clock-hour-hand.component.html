@@ -1,0 +1,18 @@
+<div class="div-hour-hand">
+
+  <i #draggable
+    (mouseup)="handleMouseUp($event)" (mousedown)="handleMouseDown($event)"
+    [style.transform]="handClicked ? 'rotate(' + hourAngle + 'deg)' : hourRotation"
+    [ngClass]="{ 'white-dot': isDragging }">
+  </i>
+
+  <p class="p-class" [hidden]="!handClicked"
+    [style.left.vmin]="hourXPos" [style.top.vmin]="hourYPos">
+
+    <span> {{ hourValue }} </span>
+    <span>:</span>
+    <span> {{ hourangleT.toFixed(2) }} </span>
+
+  </p>
+
+</div>

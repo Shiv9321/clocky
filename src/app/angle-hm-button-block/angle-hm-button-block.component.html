@@ -1,0 +1,19 @@
+<div class="div-angle-hm" [ngClass]="{'hidden-angle-hm': stopClock}">
+  Angle between Hour and Minute Hand-
+
+  <span class="span-hour-minute">
+
+    {{difference.toFixed(2)}}
+
+  </span>
+
+  <span class="span-of-and"> & </span>
+
+
+  <span class="span-at-stop-time" [hidden]="!stopClock">
+    (at Stopped time)
+  </span>
+
+  <span class="span-hour-minute"> {{difference2.toFixed(2)}} </span>
+
+</div>

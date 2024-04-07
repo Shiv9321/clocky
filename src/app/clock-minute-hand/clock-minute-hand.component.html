@@ -1,0 +1,16 @@
+<div class="div-minute-hand">
+
+  <i #draggable
+    (mouseup)="handleMouseUp($event)" (mousedown)="handleMouseDown($event)"
+    [style.transform]="handClicked ? 'rotate(' + minuteAngle + 'deg)scale(1.2) ' : minuteRotation"
+    [ngClass]="{ 'white-dot': isDragging }">
+  </i>
+
+  <p class="p-class" [hidden]="!handClicked"
+    [style.left.vmin]="minXPos" [style.top.vmin]="minYPos">
+    <span> {{ minuteValue }} </span>
+    <span> : </span>
+    <span> {{ minuteangleT.toFixed(1) }} </span>
+  </p>
+
+</div>
