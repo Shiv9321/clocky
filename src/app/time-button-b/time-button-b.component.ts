@@ -49,19 +49,19 @@ export class TimeButtonBComponent
     //   this.updateTime();
     // }, 1000);
 
-    this.zone.runOutsideAngular(() =>
-    {
-      setInterval(() =>
-      {
-        this.updateTime();
-      }, 1000);
-    });
+    // this.zone.runOutsideAngular(() =>
+    // {
+    //   setInterval(() =>
+    //   {
+    //     this.updateTime();
+    //   }, 1000);
+    // });
 
-    this.subscription.add(interval(1000).subscribe(() => {
-      this.zone.run(() => {
-        this.updateTime();
-      });
-    }));
+    // this.subscription.add(interval(1000).subscribe(() => {
+    //   this.zone.run(() => {
+    //     this.updateTime();
+    //   });
+    // }));
 
     this.ClockHourHandStopService.stopClock$.subscribe(() => {
       this.stopClockRotation();
