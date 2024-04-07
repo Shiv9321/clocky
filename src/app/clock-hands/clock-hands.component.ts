@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service'
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './clock-hands.component.html',
   styleUrl: './clock-hands.component.sass'
 })
+
 export class ClockHandsComponent implements OnInit
 {
   stopClock: boolean = false;
