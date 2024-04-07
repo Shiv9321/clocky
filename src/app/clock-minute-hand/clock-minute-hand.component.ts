@@ -1,5 +1,5 @@
-import { AfterContentChecked, AfterViewInit, Component,
-  ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild,
+          Inject,PLATFORM_ID } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.servi
 import { Subscription } from 'rxjs';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
 import { MinuteHandAatService } from '../minute-hand-aat.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-minute-hand',
@@ -48,20 +49,30 @@ export class ClockMinuteHandComponent implements OnInit
               private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
               private elementRef: ElementRef,
               private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
-              private MinuteHandAatService:MinuteHandAatService
+              private MinuteHandAatService:MinuteHandAatService,
+              @Inject(PLATFORM_ID) private platformId: Object
             )
   { }
 
   ngOnInit(): void
   {
 
-    this.router.events.pipe
-    (
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>
+    // this.router.events.pipe
+    // (
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() =>
+    // {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // });
+
+    if (isPlatformBrowser(this.platformId))
     {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     this.updateClock();
     setInterval(() =>

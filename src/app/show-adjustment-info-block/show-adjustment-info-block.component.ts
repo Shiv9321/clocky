@@ -1,10 +1,11 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-show-adjustment-info-block',
@@ -27,6 +28,7 @@ export class ShowAdjustmentInfoBlockComponent implements OnInit {
   constructor(
                 private ClockHourHandStopService: ClockHourHandStopService,
                 private ForTimeStopTextService:ForTimeStopTextService,
+                @Inject(PLATFORM_ID) private platformId: Object
               )
   { }
 
@@ -47,16 +49,25 @@ export class ShowAdjustmentInfoBlockComponent implements OnInit {
 
   scrollToBottom()
   {
-    const fullHeight = document.body.scrollHeight;
+    // const fullHeight = document.body.scrollHeight;
 
-    window.scrollTo
-    ({
-      top: fullHeight,
-      behavior: 'smooth'
-    });
+    // window.scrollTo
+    // ({
+    //   top: fullHeight,
+    //   behavior: 'smooth'
+    // });
+
+    if (isPlatformBrowser(this.platformId))
+    {
+      const fullHeight = document.body.scrollHeight;
+
+      window.scrollTo({
+        top: fullHeight,
+        behavior: 'smooth'
+      });
+    }
 
   }
-
 
   stopClockRotation()
   {

@@ -1,7 +1,8 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { Subscription } from 'rxjs';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-to-down-button',
@@ -24,6 +25,7 @@ export class ToDownButtonComponent  implements OnInit
   constructor(
                 private ClockHourHandStopService: ClockHourHandStopService,
                 private ForTimeStopTextService:ForTimeStopTextService,
+                @Inject(PLATFORM_ID) private platformId: Object
               )
   { }
 
@@ -43,14 +45,23 @@ export class ToDownButtonComponent  implements OnInit
 
   scrollToBottom()
   {
-    const topPos = 0;
-    const fullHeight = document.body.scrollHeight;
+    // const topPos = 0;
+    // const fullHeight = document.body.scrollHeight;
 
-    window.scrollTo
-    ({
-      top: fullHeight,
-      behavior: 'smooth'
-    });
+    // window.scrollTo
+    // ({
+    //   top: fullHeight,
+    //   behavior: 'smooth'
+    // });
+
+    if (isPlatformBrowser(this.platformId)) {
+      const fullHeight = document.body.scrollHeight;
+
+      window.scrollTo({
+        top: fullHeight,
+        behavior: 'smooth'
+      });
+    }
 
   }
 

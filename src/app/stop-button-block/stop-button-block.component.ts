@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component,OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service'
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.service';
 import { Subscription } from 'rxjs';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-stop-button-block',
@@ -23,7 +24,8 @@ export class StopButtonBlockComponent
                 private ClockHourHandStopService: ClockHourHandStopService,
                 private router: Router,
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
-                private ForTimeStopTextService: ForTimeStopTextService
+                private ForTimeStopTextService: ForTimeStopTextService,
+                @Inject(PLATFORM_ID) private platformId: Object
               )
   { }
 
@@ -36,13 +38,22 @@ export class StopButtonBlockComponent
       this.updateTime();
     }, 1000);
 
-    this.router.events.pipe
-    (
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>
-    {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // this.router.events.pipe
+    // (
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() =>
+    // {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // });
+
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     this.subscription.add(
       this.ForHandsStopTextChangeService.buttonText$.subscribe((text) =>
@@ -101,12 +112,19 @@ export class StopButtonBlockComponent
 
   scrollToTop()
   {
-    const topPos = 0;
+    // const topPos = 0;
 
-    window.scrollTo({
-      top: topPos,
-      behavior: 'smooth'
-    });
+    // window.scrollTo({
+    //   top: topPos,
+    //   behavior: 'smooth'
+    // });
+
+    if (isPlatformBrowser(this.platformId)) {
+      const topPos = 0;
+      window.scrollTo({
+        top: topPos,
+        behavior: 'smooth'
+      });
 
     const divElement = document.querySelector('.center-dot');
       if (divElement) {
@@ -118,4 +136,4 @@ export class StopButtonBlockComponent
 
   }
 }
-
+}

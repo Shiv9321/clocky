@@ -7,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 
 export class ForSecondHandAngleTextService
 {
-
   constructor() { }
 
   private secondRotationDegreesSubject = new BehaviorSubject<number>(0);

@@ -1,4 +1,5 @@
-import { Component,  ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component,  ElementRef, HostListener, OnInit, ViewChild
+          ,Inject,PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { filter } from 'rxjs/operators';
@@ -7,6 +8,7 @@ import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.servi
 import { Subscription } from 'rxjs';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
 import { HourHandAatService } from '../hour-hand-aat.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-hour-hand',
@@ -47,20 +49,29 @@ export class ClockHourHandComponent implements OnInit
                 private ForHourHandAngleTextService: ForHourHandAngleTextService,
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
                 private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
-                private HourHandAatService:HourHandAatService
+                private HourHandAatService:HourHandAatService,
+                @Inject(PLATFORM_ID) private platformId: Object
               )
   {  }
 
   ngOnInit(): void
   {
 
-    this.router.events.pipe
-    (
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>
+    // this.router.events.pipe
+    // (
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() =>
+    // {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // });
+    if (isPlatformBrowser(this.platformId))
     {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     this.updateClock(); // Call updateClock function initially
     setInterval(() =>

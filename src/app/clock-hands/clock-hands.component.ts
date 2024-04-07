@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service'
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-hands',
@@ -17,20 +18,29 @@ export class ClockHandsComponent implements OnInit
 
   constructor(
                 private ClockHourHandStopService: ClockHourHandStopService,
-                private router: Router
+                private router: Router,
+                @Inject(PLATFORM_ID) private platformId: Object
               )
   { }
 
   ngOnInit(): void
   {
 
-    this.router.events.pipe
-    (
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>
-    {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // this.router.events.pipe
+    // (
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() =>
+    // {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.scrollToTop();
+        });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() =>
     {

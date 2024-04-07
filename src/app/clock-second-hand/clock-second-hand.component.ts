@@ -1,4 +1,5 @@
-import { Component,ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component,ElementRef, HostListener, OnInit, PLATFORM_ID,
+          Inject, ViewChild } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -7,6 +8,7 @@ import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.servi
 import { Subscription } from 'rxjs';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
 import { SecondHandAatService } from '../second-hand-aat.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-second-hand',
@@ -43,20 +45,29 @@ export class ClockSecondHandComponent implements OnInit
               private ForSecondHandAngleTextService: ForSecondHandAngleTextService,
               private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
               private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
-              private SecondHandAatService:SecondHandAatService
+              private SecondHandAatService:SecondHandAatService,
+              @Inject(PLATFORM_ID) private platformId: Object
             )
   { }
 
   ngOnInit(): void
   {
+// this.router.events.pipe
+    // (
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() =>
+    // {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // });
 
-    this.router.events.pipe
-    (
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() =>
-    {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (isPlatformBrowser(this.platformId))
+      {
+        this.router.events
+          .pipe(filter((event) => event instanceof NavigationEnd))
+          .subscribe(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+      }
 
     this.updateClock();
     setInterval(() =>

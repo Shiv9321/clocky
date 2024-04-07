@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 
-export class ForTimeStopTextService{
-
+export class ForTimeStopTextService
+{
 
   constructor() { }
 
