@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-
 @Component({
   selector: 'app-clock-circle-outer',
   templateUrl: './clock-circle-outer.component.html',

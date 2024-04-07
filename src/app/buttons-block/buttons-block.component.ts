@@ -5,6 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './buttons-block.component.html',
   styleUrl: './buttons-block.component.sass'
 })
-export class ButtonsBlockComponent {
+
+export class ButtonsBlockComponent
+{
 
 }

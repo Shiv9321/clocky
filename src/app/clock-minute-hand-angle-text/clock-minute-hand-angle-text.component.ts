@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, Inject, PLATFORM_ID, NgZone  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { ForMinuteHandAngleTextService } from '../for-minute-hand-angle-text.service';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
 import { Subscription } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-minute-hand-angle-text',
@@ -29,11 +30,13 @@ export class ClockMinuteHandAngleTextComponent implements OnInit
   handClicked:boolean = false;
 
   constructor
-  (
-    private ClockHourHandStopService: ClockHourHandStopService,
-    private ForMinuteHandAngleTextService: ForMinuteHandAngleTextService,
-    private HandClickedHideAngleTextService:HandClickedHideAngleTextService
-  )
+            (
+              private ClockHourHandStopService: ClockHourHandStopService,
+              private ForMinuteHandAngleTextService: ForMinuteHandAngleTextService,
+              private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private ngZone: NgZone
+            )
   {
     this.subscription = this.HandClickedHideAngleTextService.handClicked$.subscribe(clicked => {
       this.handClicked = clicked;
@@ -42,20 +45,24 @@ export class ClockMinuteHandAngleTextComponent implements OnInit
 
  ngOnInit()
  {
+  if (isPlatformBrowser(this.platformId))
+  {
+    this.ngZone.runOutsideAngular(() => {
+      this.updatePositions();
+      this.animate();
+      setInterval(() => {
+        this.ngZone.run(() => {
+          const now = new Date();
+          const minutes = now.getMinutes();
+          const seconds = now.getSeconds();
 
-    this.updatePositions();
-    this.animate();
-    setInterval(() => {
-      const now = new Date();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-
-      if (!this.stopSecondHandUpdate)
-      {
-        this.minuteAngle = minutes * 6 + (seconds * (6 / 60));
-      }
-
-    }, 1000);
+          if (!this.stopSecondHandUpdate) {
+            this.minuteAngle = minutes * 6 + (seconds * (6 / 60));
+          }
+        });
+      }, 1000);
+    });
+  }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() => {
       this.stopClockRotation(); // Stop clock rotation when the stopClock$ event is emitted
@@ -92,13 +99,18 @@ export class ClockMinuteHandAngleTextComponent implements OnInit
       this.minuteYPos = this.minuteRadius * Math.sin(minuteHandAngle) - 0.4;
     }
   }
-
   animate()
   {
-    setInterval(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updatePositions();
-    }, 1000);
+      this.ngZone.runOutsideAngular(() => {
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updatePositions();
+          });
+        }, 1000);
+      });
+    }
   }
 
   ngOnDestroy()

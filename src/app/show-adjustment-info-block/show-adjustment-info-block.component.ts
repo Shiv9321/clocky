@@ -13,7 +13,8 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './show-adjustment-info-block.component.sass'
 })
 
-export class ShowAdjustmentInfoBlockComponent implements OnInit {
+export class ShowAdjustmentInfoBlockComponent implements OnInit
+{
 
   stopClock: boolean = false;
   buttonText:string = 'STOP';
@@ -49,14 +50,6 @@ export class ShowAdjustmentInfoBlockComponent implements OnInit {
 
   scrollToBottom()
   {
-    // const fullHeight = document.body.scrollHeight;
-
-    // window.scrollTo
-    // ({
-    //   top: fullHeight,
-    //   behavior: 'smooth'
-    // });
-
     if (isPlatformBrowser(this.platformId))
     {
       const fullHeight = document.body.scrollHeight;

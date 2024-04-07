@@ -1,10 +1,11 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit,PLATFORM_ID, Inject, NgZone  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { Subscription } from 'rxjs';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
 import { HourHandAatService } from '../hour-hand-aat.service';
 import { MinuteHandAatService } from '../minute-hand-aat.service';
 import { SecondHandAatService } from '../second-hand-aat.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-adjusted-angles-block',
@@ -40,64 +41,83 @@ export class AdjustedAnglesBlockComponent implements OnInit
                 private ForTimeStopTextService:ForTimeStopTextService,
                 private HourHandAatService:HourHandAatService,
                 private MinuteHandAatService:MinuteHandAatService,
-                private SecondHandAatService:SecondHandAatService
+                private SecondHandAatService:SecondHandAatService,
+                @Inject(PLATFORM_ID) private platformId: Object,
+                private ngZone: NgZone
               )
   { }
 
   ngOnInit(): void
   {
     this.updateTime();
-    setInterval(() => {
-      this.updateTime();
-    }, 1000);
 
-    this.ClockHourHandStopService.stopClock$.subscribe(() => {
+    if (isPlatformBrowser(this.platformId))
+    {
+      this.ngZone.runOutsideAngular(() => {
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updateTime();
+          });
+        }, 1000);
+      });
+    }
+
+    this.ClockHourHandStopService.stopClock$.subscribe(() =>
+    {
       this.stopClockRotation();
     });
 
     this.subscription.add(
-      this.ForTimeStopTextService.Stoptext$.subscribe((text) => {
+      this.ForTimeStopTextService.Stoptext$.subscribe((text) =>
+        {
         this.stoptext = text;
       })
     );
 
     this.subscription.add(
-      this.ForTimeStopTextService.RTtext$.subscribe((text) => {
+      this.ForTimeStopTextService.RTtext$.subscribe((text) =>
+      {
         this.RTtext = text;
       })
     );
 
     this.subscription.add(
-      this.ForTimeStopTextService.ATtext$.subscribe((text) => {
+      this.ForTimeStopTextService.ATtext$.subscribe((text) =>
+      {
         this.ATtext = text;
       })
     );
 
     this.subscription.add(
-      this.ForTimeStopTextService.runningtext$.subscribe((text) => {
+      this.ForTimeStopTextService.runningtext$.subscribe((text) =>
+      {
         this.runningtime = text;
       })
     );
 
     this.subscription.add(
-      this.ForTimeStopTextService.adjustedtext$.subscribe((text) => {
+      this.ForTimeStopTextService.adjustedtext$.subscribe((text) =>
+      {
         this.adjustedtime = text;
       })
     );
 
-    this.HourHandAatService.hourAngle$.subscribe(hourangleT => {
+    this.HourHandAatService.hourAngle$.subscribe(hourangleT =>
+    {
       this.hourangleT = hourangleT;
       this.calculateDifferenceHM();
       this.calculateDifferenceHS();
     });
 
-    this.MinuteHandAatService.hourAngle$.subscribe(hourangleT => {
+    this.MinuteHandAatService.hourAngle$.subscribe(hourangleT =>
+    {
       this.minuteangleT = hourangleT;
       this.calculateDifferenceHM();
       this.calculateDifferenceMS();
     });
 
-    this.SecondHandAatService.hourAngle$.subscribe(hourangleT => {
+    this.SecondHandAatService.hourAngle$.subscribe(hourangleT =>
+    {
       this.secondangleT = hourangleT;
       this.calculateDifferenceHS();
       this.calculateDifferenceMS();
@@ -107,7 +127,7 @@ export class AdjustedAnglesBlockComponent implements OnInit
 
   stopClockRotation()
   {
-    this.stopClock = true; // Set stopClock flag to true to stop clock rotation
+    this.stopClock = true;
   }
 
   updateTime()
@@ -151,7 +171,7 @@ export class AdjustedAnglesBlockComponent implements OnInit
 
   ngOnDestroy(): void
   {
-    this.subscription.unsubscribe(); // unsubscribe to prevent memory leaks
+    this.subscription.unsubscribe();
   }
 
 }

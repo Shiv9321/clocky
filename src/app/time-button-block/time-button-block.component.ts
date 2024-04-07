@@ -1,9 +1,10 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, NgZone} from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-time-button-block',
@@ -30,7 +31,9 @@ export class TimeButtonBlockComponent implements OnInit
                 private ClockHourHandStopService: ClockHourHandStopService,
                 private router: Router,
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
-                private ForTimeStopTextService:ForTimeStopTextService
+                private ForTimeStopTextService:ForTimeStopTextService,
+                @Inject(PLATFORM_ID) private platformId: Object,
+                private zone: NgZone
               )
   { }
 
@@ -38,10 +41,16 @@ export class TimeButtonBlockComponent implements OnInit
   {
     this.updateTime();
 
-    setInterval(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateTime();
-    }, 1000);
+      this.zone.runOutsideAngular(() => {
+        setInterval(() => {
+          this.zone.run(() => {
+            this.updateTime();
+          });
+        }, 1000);
+      });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() => {
       this.stopClockRotation();

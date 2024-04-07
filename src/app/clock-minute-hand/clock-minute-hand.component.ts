@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild,
-          Inject,PLATFORM_ID } from '@angular/core';
+          Inject,PLATFORM_ID, NgZone  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -50,35 +50,37 @@ export class ClockMinuteHandComponent implements OnInit
               private elementRef: ElementRef,
               private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
               private MinuteHandAatService:MinuteHandAatService,
-              @Inject(PLATFORM_ID) private platformId: Object
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private ngZone: NgZone
             )
   { }
 
   ngOnInit(): void
   {
 
-    // this.router.events.pipe
-    // (
-    //   filter(event => event instanceof NavigationEnd)
-    // ).subscribe(() =>
-    // {
-    //   window.scrollTo({ top: 0, behavior: 'smooth' });
-    // });
-
     if (isPlatformBrowser(this.platformId))
     {
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          this.ngZone.run(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
         });
     }
 
     this.updateClock();
-    setInterval(() =>
+
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateClock();
-    }, 1000);
+      this.ngZone.runOutsideAngular(() => {
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updateClock();
+          });
+        }, 1000);
+      });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() =>
     {
@@ -133,20 +135,23 @@ export class ClockMinuteHandComponent implements OnInit
 
   scrollToTop()
   {
-    const topPos = 0;
+    if (isPlatformBrowser(this.platformId))
+    {
+      const topPos = 0;
 
-    window.scrollTo({
-      top: topPos,
-      behavior: 'smooth'
-    });
+      window.scrollTo({
+        top: topPos,
+        behavior: 'smooth'
+      });
 
-    const divElement = document.querySelector('.center-dot');
-      if (divElement) {
-        divElement.classList.add('red-color');
-        setTimeout(() => {
-          divElement.classList.remove('red-color');
-        }, 1250);
-      }
+      const divElement = document.querySelector('.center-dot');
+        if (divElement) {
+          divElement.classList.add('red-color');
+          setTimeout(() => {
+            divElement.classList.remove('red-color');
+          }, 1250);
+        }
+    }
 
   }
 

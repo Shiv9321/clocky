@@ -26,18 +26,12 @@ export class ClockHandsComponent implements OnInit
   ngOnInit(): void
   {
 
-    // this.router.events.pipe
-    // (
-    //   filter(event => event instanceof NavigationEnd)
-    // ).subscribe(() =>
-    // {
-    //   window.scrollTo({ top: 0, behavior: 'smooth' });
-    // });
-
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId))
+    {
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
+        .subscribe(() =>
+        {
           this.scrollToTop();
         });
     }
@@ -64,21 +58,25 @@ export class ClockHandsComponent implements OnInit
 
   scrollToTop()
   {
-    const topPos = 0;
+    if (isPlatformBrowser(this.platformId))
+    {
+        const topPos = 0;
 
-    window.scrollTo({
-      top: topPos,
-      behavior: 'smooth'
-    });
+        window.scrollTo({
+          top: topPos,
+          behavior: 'smooth'
+        });
 
-    const divElement = document.querySelector('.center-dot');
-      if (divElement)
-      {
-        divElement.classList.add('red-color');
-        setTimeout(() =>
+      const divElement = document.querySelector('.center-dot');
+        if (divElement)
         {
-          divElement.classList.remove('red-color');
-        }, 1250);
-      }
+          divElement.classList.add('red-color');
+          setTimeout(() =>
+          {
+            divElement.classList.remove('red-color');
+          }, 1250);
+        }
+    }
   }
+
 }

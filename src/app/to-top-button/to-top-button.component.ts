@@ -18,20 +18,11 @@ export class ToTopButtonComponent implements OnInit
 
   scrollToTop()
   {
-    // // Get the top position of the page
-    // const topPos = 0;
-
-    // // Use smooth scrolling behavior
-    // window.scrollTo({
-    //   top: topPos,
-    //   behavior: 'smooth'
-    // });
 
     if (isPlatformBrowser(this.platformId))
     {
       // Get the top position of the page
       const topPos = 0;
-
       // Use smooth scrolling behavior
       window.scrollTo({
         top: topPos,

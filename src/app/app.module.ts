@@ -28,7 +28,6 @@ import { ClockMinuteHandComponent } from './clock-minute-hand/clock-minute-hand.
 import { ClockHourHandComponent } from './clock-hour-hand/clock-hour-hand.component';
 import { ClockSecondHandComponent } from './clock-second-hand/clock-second-hand.component';
 import { ClockReferenceHandComponent } from './clock-reference-hand/clock-reference-hand.component';
-import { TimeButtonBComponent } from './time-button-b/time-button-b.component';
 
 
 @NgModule({
@@ -60,7 +59,6 @@ import { TimeButtonBComponent } from './time-button-b/time-button-b.component';
     ClockHourHandComponent,
     ClockSecondHandComponent,
     ClockReferenceHandComponent,
-    TimeButtonBComponent
   ],
   imports: [
     BrowserModule,

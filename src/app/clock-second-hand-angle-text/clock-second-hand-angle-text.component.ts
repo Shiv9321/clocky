@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { ForSecondHandAngleTextService } from '../for-second-hand-angle-text.service';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
 import { Subscription } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-clock-second-hand-angle-text',
@@ -32,7 +33,9 @@ export class ClockSecondHandAngleTextComponent implements OnInit
   constructor(
               private ClockHourHandStopService: ClockHourHandStopService,
               private ForSecondHandAngleTextService: ForSecondHandAngleTextService,
-              private HandClickedHideAngleTextService:HandClickedHideAngleTextService
+              private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private ngZone: NgZone
              )
   {
     this.subscription = this.HandClickedHideAngleTextService.handClicked$.subscribe(clicked => {
@@ -42,19 +45,24 @@ export class ClockSecondHandAngleTextComponent implements OnInit
 
 ngOnInit(): void
 {
-    this.updatePosition();
-    this.animate();
-
-    setInterval(() =>
+  if (isPlatformBrowser(this.platformId))
+  {
+    this.ngZone.runOutsideAngular(() =>
     {
-      const now = new Date();
-      const seconds = now.getSeconds();
+      this.updatePosition();
+      this.animate();
+      setInterval(() => {
+        this.ngZone.run(() => {
+          const now = new Date();
+          const seconds = now.getSeconds();
 
-      if (!this.stopSecondHandUpdate)
-      {
-        this.secondHandAngle = seconds * 6;
-      }
-    }, 1000);
+          if (!this.stopSecondHandUpdate) {
+            this.secondHandAngle = seconds * 6;
+          }
+        });
+      }, 1000);
+    });
+  }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() => {
       this.stopClockRotation(); // Stop clock rotation when the stopClock$ event is emitted
@@ -87,10 +95,17 @@ ngOnInit(): void
 
   animate()
   {
-    setInterval(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updatePosition();
-    }, 1000);
+      this.ngZone.runOutsideAngular(() =>
+      {
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updatePosition();
+          });
+        }, 1000);
+      });
+    }
   }
 
   ngOnDestroy()

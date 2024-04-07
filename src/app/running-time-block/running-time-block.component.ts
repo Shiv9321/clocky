@@ -1,10 +1,11 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit ,OnDestroy, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import {ForHandsStopTextChangeService} from '../for-hands-stop-text-change.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {ForTimeStopTextService} from '../for-time-stop-text.service';
 import { HandClickedHideAngleTextService } from '../hand-clicked-hide-angle-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-running-time-block',
@@ -33,17 +34,28 @@ export class RunningTimeBlockComponent implements OnInit
                 private router: Router,
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
                 private ForTimeStopTextService:ForTimeStopTextService,
-                private HandClickedHideAngleTextService:HandClickedHideAngleTextService
+                private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
+                @Inject(PLATFORM_ID) private platformId: Object,
+                private ngZone: NgZone
               )
   { }
 
   ngOnInit(): void
   {
     this.updateTime();
-    setInterval(() =>
+
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateTime();
-    }, 1000);
+      this.ngZone.runOutsideAngular(() =>
+      {
+        // Wrap setInterval inside runOutsideAngular
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updateTime(); // Wrap the function inside run
+          });
+        }, 1000);
+      });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() => {
       this.stopClockRotation();

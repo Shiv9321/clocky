@@ -1,5 +1,5 @@
 import { Component,  ElementRef, HostListener, OnInit, ViewChild
-          ,Inject,PLATFORM_ID } from '@angular/core';
+          ,Inject,PLATFORM_ID,NgZone } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { filter } from 'rxjs/operators';
@@ -50,20 +50,13 @@ export class ClockHourHandComponent implements OnInit
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
                 private HandClickedHideAngleTextService:HandClickedHideAngleTextService,
                 private HourHandAatService:HourHandAatService,
-                @Inject(PLATFORM_ID) private platformId: Object
+                @Inject(PLATFORM_ID) private platformId: Object,
+                private ngZone: NgZone
               )
   {  }
 
   ngOnInit(): void
   {
-
-    // this.router.events.pipe
-    // (
-    //   filter(event => event instanceof NavigationEnd)
-    // ).subscribe(() =>
-    // {
-    //   window.scrollTo({ top: 0, behavior: 'smooth' });
-    // });
     if (isPlatformBrowser(this.platformId))
     {
       this.router.events
@@ -74,10 +67,17 @@ export class ClockHourHandComponent implements OnInit
     }
 
     this.updateClock(); // Call updateClock function initially
-    setInterval(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateClock(); // Update clock every minute
-    }, 1000);
+      this.ngZone.runOutsideAngular(() =>
+      { // Run setInterval outside Angular's zone
+        setInterval(() => {
+          this.ngZone.run(() => { // Run the updateClock inside Angular's zone
+            this.updateClock();
+          });
+        }, 1000);
+      });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() =>
     {
@@ -135,21 +135,24 @@ export class ClockHourHandComponent implements OnInit
 
   scrollToTop()
   {
-    const topPos = 0;
-    window.scrollTo
-    ({
-      top: topPos,
-      behavior: 'smooth'
-    });
+    if (isPlatformBrowser(this.platformId))
+    {
+      const topPos = 0;
+      window.scrollTo
+      ({
+        top: topPos,
+        behavior: 'smooth'
+      });
 
-    const divElement = document.querySelector('.center-dot');
-      if (divElement)
-      {
-        divElement.classList.add('red-color');
-        setTimeout(() => {
-          divElement.classList.remove('red-color');
-        }, 1250);
-      }
+      const divElement = document.querySelector('.center-dot');
+        if (divElement)
+        {
+          divElement.classList.add('red-color');
+          setTimeout(() => {
+            divElement.classList.remove('red-color');
+          }, 1250);
+        }
+    }
   }
 
   @HostListener('mousedown', ['$event'])

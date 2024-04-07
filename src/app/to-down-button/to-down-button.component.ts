@@ -45,16 +45,8 @@ export class ToDownButtonComponent  implements OnInit
 
   scrollToBottom()
   {
-    // const topPos = 0;
-    // const fullHeight = document.body.scrollHeight;
-
-    // window.scrollTo
-    // ({
-    //   top: fullHeight,
-    //   behavior: 'smooth'
-    // });
-
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId))
+    {
       const fullHeight = document.body.scrollHeight;
 
       window.scrollTo({

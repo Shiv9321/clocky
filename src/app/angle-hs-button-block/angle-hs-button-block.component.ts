@@ -1,14 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit,PLATFORM_ID, Inject, NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { ForHourHandAngleTextService } from '../for-hour-hand-angle-text.service';
 import { ForSecondHandAngleTextService } from '../for-second-hand-angle-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-angle-hs-button-block',
   templateUrl: './angle-hs-button-block.component.html',
   styleUrl: './angle-hs-button-block.component.sass'
 })
+
 export class AngleHsButtonBlockComponent implements OnInit,OnDestroy
 {
 
@@ -25,18 +27,27 @@ export class AngleHsButtonBlockComponent implements OnInit,OnDestroy
   constructor(
               private ClockHourHandStopService: ClockHourHandStopService,
               private ForSecondHandAngleTextService: ForSecondHandAngleTextService,
-              private ForHourHandAngleTextService: ForHourHandAngleTextService
-              )
+              private ForHourHandAngleTextService: ForHourHandAngleTextService,
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private ngZone: NgZone
+            )
   { }
 
   ngOnInit(): void
   {
     this.updateTime();
 
-    this.subscription = interval(1000).subscribe(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateTime();
-    });
+        this.ngZone.runOutsideAngular(() =>
+        {
+          setInterval(() => {
+            this.ngZone.run(() => {
+              this.updateTime();
+            });
+          }, 1000);
+        });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() =>
     {

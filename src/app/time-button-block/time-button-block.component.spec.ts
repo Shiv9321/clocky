@@ -11,7 +11,7 @@ describe('TimeButtonBlockComponent', () => {
       declarations: [TimeButtonBlockComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(TimeButtonBlockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

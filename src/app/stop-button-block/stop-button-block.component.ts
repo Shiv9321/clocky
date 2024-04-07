@@ -1,4 +1,4 @@
-import { Component,OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, NgZone  } from '@angular/core';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service'
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -19,13 +19,15 @@ export class StopButtonBlockComponent
 
   buttonText:string = 'STOP';
   private subscription: Subscription = new Subscription;
+  private intervalId: any;
 
   constructor(
                 private ClockHourHandStopService: ClockHourHandStopService,
                 private router: Router,
                 private ForHandsStopTextChangeService: ForHandsStopTextChangeService,
                 private ForTimeStopTextService: ForTimeStopTextService,
-                @Inject(PLATFORM_ID) private platformId: Object
+                @Inject(PLATFORM_ID) private platformId: Object,
+                private ngZone: NgZone
               )
   { }
 
@@ -33,21 +35,17 @@ export class StopButtonBlockComponent
   {
 
     this.updateTime();
-    setInterval(() =>
+
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateTime();
-    }, 1000);
+      this.ngZone.runOutsideAngular(() => {
+        this.intervalId = setInterval(() => {
+          this.ngZone.run(() => {
+            this.updateTime();
+          });
+        }, 1000);
+      });
 
-    // this.router.events.pipe
-    // (
-    //   filter(event => event instanceof NavigationEnd)
-    // ).subscribe(() =>
-    // {
-    //   window.scrollTo({ top: 0, behavior: 'smooth' });
-    // });
-
-
-    if (isPlatformBrowser(this.platformId)) {
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => {
@@ -91,6 +89,10 @@ export class StopButtonBlockComponent
   ngOnDestroy(): void
   {
     this.subscription.unsubscribe();
+    if (this.intervalId)
+    {
+      clearInterval(this.intervalId);
+    }
   }
 
   onStopClockClick()
@@ -112,28 +114,22 @@ export class StopButtonBlockComponent
 
   scrollToTop()
   {
-    // const topPos = 0;
-
-    // window.scrollTo({
-    //   top: topPos,
-    //   behavior: 'smooth'
-    // });
-
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId))
+    {
       const topPos = 0;
       window.scrollTo({
         top: topPos,
         behavior: 'smooth'
       });
 
-    const divElement = document.querySelector('.center-dot');
-      if (divElement) {
-        divElement.classList.add('red-color');
-        setTimeout(() => {
-          divElement.classList.remove('red-color');
-        }, 1250);
-      }
+      const divElement = document.querySelector('.center-dot');
+        if (divElement) {
+          divElement.classList.add('red-color');
+          setTimeout(() => {
+            divElement.classList.remove('red-color');
+          }, 1250);
+        }
 
+    }
   }
-}
 }

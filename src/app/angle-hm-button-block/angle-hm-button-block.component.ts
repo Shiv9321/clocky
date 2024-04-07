@@ -1,8 +1,9 @@
-import { Component , OnDestroy, OnInit} from '@angular/core';
-import { interval, Subscription } from 'rxjs';
+import { Component , OnDestroy, OnInit,  PLATFORM_ID, Inject, NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ClockHourHandStopService } from '../clock-hour-hand-stop.service';
 import { ForHourHandAngleTextService } from '../for-hour-hand-angle-text.service';
 import { ForMinuteHandAngleTextService } from '../for-minute-hand-angle-text.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-angle-hm-button-block',
@@ -27,6 +28,8 @@ export class AngleHmButtonBlockComponent implements OnInit,OnDestroy
               private ClockHourHandStopService: ClockHourHandStopService,
               private ForMinuteHandAngleTextService: ForMinuteHandAngleTextService,
               private ForHourHandAngleTextService: ForHourHandAngleTextService,
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private ngZone: NgZone
             )
   { }
 
@@ -34,10 +37,16 @@ export class AngleHmButtonBlockComponent implements OnInit,OnDestroy
   {
     this.updateTime();
 
-    this.subscription = interval(1000).subscribe(() =>
+    if (isPlatformBrowser(this.platformId))
     {
-      this.updateTime();
-    });
+      this.ngZone.runOutsideAngular(() => {
+        setInterval(() => {
+          this.ngZone.run(() => {
+            this.updateTime();
+          });
+        }, 1000);
+      });
+    }
 
     this.ClockHourHandStopService.stopClock$.subscribe(() =>
     {
@@ -48,7 +57,7 @@ export class AngleHmButtonBlockComponent implements OnInit,OnDestroy
 
   stopClockRotation()
   {
-    this.stopClock = true; // Set stopClock flag to true to stop clock rotation
+    this.stopClock = true;
   }
 
   ngOnDestroy(): void
