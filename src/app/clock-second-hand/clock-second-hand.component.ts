@@ -176,7 +176,10 @@ export class ClockSecondHandComponent implements OnInit
   @HostListener('touchstart', ['$event'])
   handleTouchDown(event: TouchEvent)
   {
-    event.preventDefault();
+    if (event.cancelable)
+    {
+      event.preventDefault();
+    }
     this.handClicked = true;
     this.isDragging = true;
     this.updateHourPosition(event);
