@@ -197,6 +197,7 @@ export class ClockMinuteHandComponent implements OnInit
   handleMouseUp(event: MouseEvent| TouchEvent)
   {
     this.isDragging = false;
+    this.snapMinuteHandToNearestMinute();
   }
 
   @HostListener('document:touchmove', ['$event'])
@@ -298,5 +299,38 @@ export class ClockMinuteHandComponent implements OnInit
       this.minXPos = deltaX;
       this.minYPos = deltaY;
   }
+
+  // private snapMinuteHandToNearestMinute() {
+  //   const degreesPerMinute = 6; // 360 degrees / 60 minutes
+  //   let adjustedAngle = ((this.minuteAngle + degreesPerMinute / 2) % 360); // Add half a degree for rounding
+  //   const nearestMinute = Math.floor(adjustedAngle / degreesPerMinute);
+  //   const newMinuteAngle = nearestMinute * degreesPerMinute;
+
+  //   this.minuteRotation = `rotate(${newMinuteAngle}deg) scale(1.2)`;
+  //   this.minuteAngle = newMinuteAngle; // Update the minute angle to the snapped position
+  //   this.MinuteHandAatService.updateHourAngle(this.minuteAngle);
+  // }
+
+  private snapMinuteHandToNearestMinute() {
+    const degreesPerMinute = 6; // Each minute represents 6 degrees on the clock face
+    // Normalize the current angle and then adjust it to snap to the nearest 6-degree interval
+    let currentAngle = this.minuteAngle % 360; // Normalize angle between 0 and 360
+    if (currentAngle < 0) {
+      currentAngle += 360; // Ensure the angle is positive
+    }
+
+    // Find the nearest minute by rounding to the nearest 6 degrees
+    const remainder = currentAngle % degreesPerMinute;
+    if (remainder < degreesPerMinute / 2) {
+      currentAngle -= remainder; // Snap to the lower bound
+    } else {
+      currentAngle += (degreesPerMinute - remainder); // Snap to the upper bound
+    }
+
+    this.minuteAngle = currentAngle;
+    this.minuteRotation = `rotate(${this.minuteAngle}deg) scale(1.2)`;
+    this.MinuteHandAatService.updateHourAngle(this.minuteAngle);
+  }
+
 
 }

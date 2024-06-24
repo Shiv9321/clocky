@@ -1,0 +1,18 @@
+.circle-inner-digit-container {
+  position: absolute;
+  color: #ffffff;
+}
+.circle-inner-digit-container .number {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 2.3vmin;
+  font-weight: bold;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}/*# sourceMappingURL=clock-inner-digits.component.css.map */

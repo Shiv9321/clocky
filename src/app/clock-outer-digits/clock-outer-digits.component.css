@@ -1,0 +1,22 @@
+.circle-outer-digit-container {
+  position: absolute;
+  color: #ffffff;
+}
+.circle-outer-digit-container .number {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.8vmin;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+@media screen and (max-width: 500px), (max-height: 500px) {
+  .circle-outer-digit-container .number {
+    display: none;
+  }
+}/*# sourceMappingURL=clock-outer-digits.component.css.map */

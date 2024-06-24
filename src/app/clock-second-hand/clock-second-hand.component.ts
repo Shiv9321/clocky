@@ -243,7 +243,9 @@ export class ClockSecondHandComponent implements OnInit
     const deltaX = clientX - centerX;
     const deltaY = clientY - centerY;
     const angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
+
     this.secondAngle = angle;
+    this.secondRotation = `rotate(${this.secondAngle}deg) scale(1.3)`;
   }
 
   calculateTime()
@@ -301,7 +303,6 @@ export class ClockSecondHandComponent implements OnInit
       this.secXPos = deltaX;
       this.secYPos = deltaY;
   }
-
 
 }
 

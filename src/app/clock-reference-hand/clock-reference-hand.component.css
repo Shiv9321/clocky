@@ -1,0 +1,29 @@
+.div-ref-hand {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.div-ref-hand > i {
+  background-color: #524c4f;
+  z-index: 0;
+  width: 0.35vmin;
+  height: 25vmin;
+  position: absolute;
+  border-radius: 50% 50% 50% 50%;
+  opacity: 0.4;
+}
+
+.div-ref-hand-2 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.div-ref-hand-2 > i {
+  background-color: #524c4f;
+  z-index: 0;
+  width: 0.35vmin;
+  height: 25vmin;
+  position: absolute;
+  border-radius: 50% 50% 50% 50%;
+  opacity: 0.4;
+}/*# sourceMappingURL=clock-reference-hand.component.css.map */

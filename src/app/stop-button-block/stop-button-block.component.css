@@ -1,0 +1,15 @@
+.div-stop-button {
+  height: 5vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  overflow: auto;
+  border-top: 2px solid #52527e;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}/*# sourceMappingURL=stop-button-block.component.css.map */

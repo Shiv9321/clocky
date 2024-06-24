@@ -1,0 +1,24 @@
+.to-down-div {
+  position: absolute;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 1.5vh;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  width: 100px;
+  height: auto;
+  border: 2px solid #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 25%;
+  box-shadow: -1px 1px #b8b7b7, -3px 2px 12px #a7a5a5;
+}
+
+.hidden9 {
+  display: none;
+}/*# sourceMappingURL=show-adjustment-info-block.component.css.map */

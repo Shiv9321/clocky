@@ -1,0 +1,26 @@
+.sticky-container {
+  color: #e9f0e9;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 15%;
+  top: 10%;
+  width: 20vmin;
+  height: 10vmin;
+  background-color: transparent;
+  border-radius: 50% 50% 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  font-size: 2vmin;
+  border: 1.5px solid #ffffff;
+  box-shadow: -1px 1px #b8b7b7, -1px 2px 10px #a7a5a5;
+  padding: 25px;
+  z-index: 500;
+}
+
+.hidden {
+  display: none;
+}/*# sourceMappingURL=running-time-block.component.css.map */

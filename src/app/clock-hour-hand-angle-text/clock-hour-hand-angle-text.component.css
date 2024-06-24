@@ -1,0 +1,17 @@
+.hour-angle {
+  color: #d8d4d4;
+  position: absolute;
+  z-index: 200;
+  font-size: 2vh;
+  font-weight: bold;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 180px), (max-height: 180px) {
+  .hour-angle {
+    font-size: 0px;
+  }
+}/*# sourceMappingURL=clock-hour-hand-angle-text.component.css.map */

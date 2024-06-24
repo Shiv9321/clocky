@@ -117,6 +117,11 @@ export class ClockHourHandComponent implements OnInit
       const hourFraction = hours % 12 + minutes / 60 + seconds / 3600;
       const HourrotationDegrees = (hourFraction / 12) * 360;
       this.ForHourHandAngleTextService.updateHourRotationDegrees(HourrotationDegrees);
+
+      // const hourRotationDegrees = (hourFraction / 12) * 360;
+      // this.hourRotation = `rotate(${hourRotationDegrees}deg) scale(0.9)`;
+      // this.hourAngle = hourRotationDegrees; // Update hourAngle to the exact calculated position
+      // this.ForHourHandAngleTextService.updateHourRotationDegrees(hourRotationDegrees);
     }
 
   }
@@ -198,6 +203,7 @@ export class ClockHourHandComponent implements OnInit
   handleMouseUp(event: MouseEvent| TouchEvent)
   {
     this.isDragging = false;
+    this.snapHourHandToNearestHour();
   }
 
   @HostListener('document:touchmove', ['$event'])
@@ -236,6 +242,10 @@ export class ClockHourHandComponent implements OnInit
     const deltaY = clientY - centerY;
     const angle = (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
     this.hourAngle = angle;
+
+    //const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI - 90; // Adjust by -90 degrees to align 0 degrees with 12 o'clock
+    //this.hourAngle = angle < 0 ? angle + 360 : angle; // Normalize the angle
+   // this.hourRotation = `rotate(${this.hourAngle}deg) scale(0.9)`;
 
     this.HourHandAatService.updateHourAngle(this.hourangleT);
   }
@@ -296,6 +306,19 @@ export class ClockHourHandComponent implements OnInit
       this.hourXPos = deltaX;
       this.hourYPos = deltaY;
   }
+
+  private snapHourHandToNearestHour()
+  {
+    const degreesPerHour = 360 / (12); // 30 degrees per hour
+    let adjustedAngle = ((this.hourAngle % 360) + 360) % 360; // Normalize angle between 0 and 360
+    const nearestHour = Math.round(adjustedAngle / degreesPerHour);
+    const newHourAngle = nearestHour * degreesPerHour;
+
+    this.hourRotation = `rotate(${newHourAngle}deg) scale(0.9)`;
+    this.hourAngle = newHourAngle; // Update the angle to snap to the nearest hour
+    this.HourHandAatService.updateHourAngle(newHourAngle);
+  }
+
 
 }
 

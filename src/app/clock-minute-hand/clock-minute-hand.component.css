@@ -1,0 +1,49 @@
+.div-minute-hand {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.div-minute-hand > i {
+  background-color: #37a1b8;
+  z-index: 110;
+  width: 0.5vmin;
+  height: 20vmin;
+  position: absolute;
+  border-radius: 50% 50% 50% 50%;
+  transform-origin: bottom center;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 350px), (max-height: 350px) {
+  .div-minute-hand > i {
+    transform: translate(0px, 8px) !important;
+  }
+}
+.div-minute-hand .white-dot::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  transform: translate(-30%, 0%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #f6f2f2;
+  z-index: 155;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+.p-class {
+  color: #37a1b8;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  left: 6.5vmin;
+  position: absolute;
+  font-weight: 1000;
+  z-index: 310;
+  width: 12vmin;
+}/*# sourceMappingURL=clock-minute-hand.component.css.map */

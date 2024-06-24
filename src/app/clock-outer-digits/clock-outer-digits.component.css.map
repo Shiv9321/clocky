@@ -1,0 +1,1 @@
+{"version":3,"sources":["clock-outer-digits.component.sass","clock-outer-digits.component.css"],"names":[],"mappings":"AAAA;EACE,kBAAA;EACA,cAAA;ACCF;ADCE;EACE,kBAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,kBAAA;EACA,yBAAA;KAAA,sBAAA;UAAA,iBAAA;EACA,oBAAA;ACCJ;ADEI;EAZF;IAcI,aAAA;ECAJ;AACF","file":"clock-outer-digits.component.css"}

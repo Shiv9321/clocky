@@ -21,7 +21,8 @@ export class ClockCircleOuterComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit(): void
   {
-    setTimeout(() => {
+    setTimeout(() =>
+    {
       this.calculateDynamicRadius();
     });
   }

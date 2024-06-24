@@ -1,0 +1,50 @@
+.div-second-hand {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.div-second-hand > i {
+  background-color: #e84181;
+  z-index: 90;
+  width: 0.5vmin;
+  height: 20vmin;
+  position: absolute;
+  border-radius: 50% 50% 50% 50%;
+  transform-origin: top center;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 350px), (max-height: 350px) {
+  .div-second-hand > i {
+    transform: translate(0px, -10px) !important;
+  }
+}
+.div-second-hand .white-dot::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  transform: translate(-30%, 0%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #f6f2f2;
+  z-index: 155;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+.p-class {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  top: 3vmin;
+  right: 3vmin;
+  position: absolute;
+  color: #d6497f;
+  font-weight: 1000;
+  z-index: 320;
+  width: 12vmin;
+}/*# sourceMappingURL=clock-second-hand.component.css.map */

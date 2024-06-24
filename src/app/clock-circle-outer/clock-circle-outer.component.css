@@ -1,0 +1,11 @@
+.clock-circle-outer {
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow: -1px 1px #b8b7b7, -3px 2px 12px #a7a5a5;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=clock-circle-outer.component.css.map */

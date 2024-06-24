@@ -41,8 +41,10 @@ export class AngleMsButtonBlockComponent implements OnInit, OnDestroy
     {
         this.ngZone.runOutsideAngular(() =>
         {
-          setInterval(() => {
-            this.ngZone.run(() => {
+          setInterval(() =>
+          {
+            this.ngZone.run(() =>
+            {
               this.updateTime();
             });
           }, 1000);

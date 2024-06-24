@@ -28,6 +28,8 @@ import { ClockMinuteHandComponent } from './clock-minute-hand/clock-minute-hand.
 import { ClockHourHandComponent } from './clock-hour-hand/clock-hour-hand.component';
 import { ClockSecondHandComponent } from './clock-second-hand/clock-second-hand.component';
 import { ClockReferenceHandComponent } from './clock-reference-hand/clock-reference-hand.component';
+import { ThreejsTryLineComponent } from './threejs-try-line/threejs-try-line.component';
+import { AdjustmentBotComponent } from './adjustment-bot/adjustment-bot.component';
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import { ClockReferenceHandComponent } from './clock-reference-hand/clock-refere
     ClockHourHandComponent,
     ClockSecondHandComponent,
     ClockReferenceHandComponent,
+    ThreejsTryLineComponent,
+    AdjustmentBotComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,17 @@
+.second-angle {
+  color: #e84181;
+  position: absolute;
+  z-index: 220;
+  font-size: 2vh;
+  font-weight: bold;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 180px), (max-height: 180px) {
+  .second-angle {
+    font-size: 0px;
+  }
+}/*# sourceMappingURL=clock-second-hand-angle-text.component.css.map */

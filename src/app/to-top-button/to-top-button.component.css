@@ -1,0 +1,18 @@
+.div-to-top {
+  height: 6vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  overflow: auto;
+  font-size: 4vh;
+  margin-top: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.div-to-top:hover {
+  font-size: 5vh;
+}/*# sourceMappingURL=to-top-button.component.css.map */

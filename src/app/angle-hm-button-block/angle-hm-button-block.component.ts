@@ -39,9 +39,12 @@ export class AngleHmButtonBlockComponent implements OnInit,OnDestroy
 
     if (isPlatformBrowser(this.platformId))
     {
-      this.ngZone.runOutsideAngular(() => {
-        setInterval(() => {
-          this.ngZone.run(() => {
+      this.ngZone.runOutsideAngular(() =>
+      {
+        setInterval(() =>
+        {
+          this.ngZone.run(() =>
+          {
             this.updateTime();
           });
         }, 1000);
